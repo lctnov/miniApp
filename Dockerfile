@@ -12,12 +12,15 @@ COPY package*.json ./
 # Cài đặt các dependencies được khai báo trong package.json
 RUN npm install
 
+# cài pm2 global để dùng runtime
+RUN npm install -g pm2
+
 # Sao chép toàn bộ source code từ máy local vào container
 COPY . .
 
-# Mở cổng 3000 để container có thể nhận request từ bên ngoài
-EXPOSE 3000
+# Mở cổng 1211 để container có thể nhận request từ bên ngoài
+EXPOSE 1211
 
 # Lệnh mặc định khi container khởi động
 # Chạy file server.js bằng Node.js
-CMD ["npm", "run", "start:prod"]
+CMD ["sh", "-c", "npm run migrate && pm2-runtime ecosystem.config.js"]
