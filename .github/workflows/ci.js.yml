@@ -57,9 +57,9 @@ jobs:
       env:
         DB_HOST: localhost
         DB_PORT: 5432
-        DB_USER: ${{ secrets.PG_USER }}
-        DB_PASS: ${{ secrets.PG_PASSWORD }}
-        DB_NAME: ${{ secrets.PG_DATABASE }}
+        DB_USER: ${{ secrets.PG_USER || 'admin' }}
+        DB_PASS: ${{ secrets.PG_PASSWORD || 'admin123' }}
+        DB_NAME: ${{ secrets.PG_DATABASE || 'ecommerce_db' }}
       run: npm run migrate
     - name: Build (if present)
       run: npm run build --if-present
