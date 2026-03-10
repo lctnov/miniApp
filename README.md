@@ -38,7 +38,7 @@ src/
 ### Installation
 
 1. Clone the repository
-2. Install dependencies:
+2. Install backend dependencies:
    ```bash
    npm install
    ```
@@ -50,16 +50,32 @@ src/
    npm run migrate
    ```
 
-5. Start the server:
+5. Start the backend server:
    ```bash
    npm run dev  # Development with nodemon
    npm start    # Production
    ```
 
-### Docker
+### Frontend Setup
+
+1. Install frontend dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Docker (Full Stack)
 
 ```bash
-docker-compose up -d  # Build and run with PostgreSQL
+docker-compose up -d  # Build and run backend with PostgreSQL
+# Then run frontend separately as above
 ```
 
 ## API Documentation

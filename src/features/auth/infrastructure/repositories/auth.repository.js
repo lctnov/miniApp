@@ -1,7 +1,7 @@
 const db = require("../../../../shared/database/knex");
 
 exports.save = async (userId, token, expiresAt) => {
-  return await knex('sa_refresh_token').insert({
+  return await db('sa_refresh_token').insert({
     user_id: userId,
     refresh_token: token,
     expires_at: expiresAt,
@@ -10,13 +10,13 @@ exports.save = async (userId, token, expiresAt) => {
 };
 
 exports.find = async (token) => {
-  return await knex('sa_refresh_token')
+  return await db('sa_refresh_token')
     .where({ refresh_token: token })
     .first();
 };
 
 exports.delete = async (token) => {
-  return await knex('sa_refresh_token')
+  return await db('sa_refresh_token')
     .where({ refresh_token: token })
     .del();
 };
