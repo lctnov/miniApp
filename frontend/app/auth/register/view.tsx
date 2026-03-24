@@ -1,6 +1,7 @@
 "use client";
 
-import { Lock, User } from "lucide-react";
+import { Lock, User, Mail } from 'lucide-react';
+import { useState } from 'react';
 import {
   TextField,
   Button,
@@ -12,29 +13,28 @@ import {
   Alert,
   CircularProgress,
 } from '@mui/material';
+import { RegisterFormProps } from './types';
+import { useRegister } from './hook';
 
-import { LoginFormProps } from "./types";
-import { useLogin } from "./hook";
-
-export function LoginView({
-  onSwitchToRegister,
-  onSwitchToForgotPassword,
-  onLoginSuccess,
-}: LoginFormProps) {
-
-  const {
-    username,
-    password,
-    error,
+export function RegisterForm({ onSwitchToLogin, onRegisterSuccess }: RegisterFormProps) {
+  const { 
+    username, 
+    password, 
+    confirmPassword, 
+    error, 
     loading,
-    setUsername,
-    setPassword,
-    handleSubmit,
-  } = useLogin(onLoginSuccess);
+    setUsername, 
+    setPassword, 
+    setConfirmPassword, 
+    handleSubmit 
+  } = useRegister(onRegisterSuccess);
+  
+  const [email, setEmail] = useState('');
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleSubmit();
+    // Có thể thêm email vào logic xử lý nếu cần
+    handleSubmit(e);
   };
 
   return (
@@ -52,15 +52,27 @@ export function LoginView({
         component="h2"
         sx={{
           textAlign: 'center',
-          mb: 4,
+          mb: 1,
           fontWeight: 600,
         }}
       >
-        Đăng Nhập
+        Đăng Ký Tài Khoản
       </Typography>
-
-      <Box component="form" onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-
+      
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          textAlign: 'center',
+          mb: 4,
+        }}
+      >
+        Tạo tài khoản mới để bắt đầu
+      </Typography>
+      
+      <Box component="form" onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+        
+        {/* Username Field */}
         <TextField
           fullWidth
           label="Tên đăng nhập"
@@ -68,6 +80,7 @@ export function LoginView({
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Nhập tên đăng nhập"
           required
+          autoComplete="username"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -77,6 +90,26 @@ export function LoginView({
           }}
         />
 
+        {/* Email Field */}
+        <TextField
+          fullWidth
+          type="email"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="example@email.com"
+          required
+          autoComplete="email"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Mail size={20} style={{ color: '#9ca3af' }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Password Field */}
         <TextField
           fullWidth
           type="password"
@@ -85,6 +118,8 @@ export function LoginView({
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Nhập mật khẩu"
           required
+          autoComplete="new-password"
+          helperText="Sử dụng ít nhất 8 ký tự"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -94,12 +129,33 @@ export function LoginView({
           }}
         />
 
+        {/* Confirm Password Field */}
+        <TextField
+          fullWidth
+          type="password"
+          label="Xác nhận mật khẩu"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Nhập lại mật khẩu"
+          required
+          autoComplete="new-password"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Lock size={20} style={{ color: '#9ca3af' }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Error Alert */}
         {error && (
           <Alert severity="error" sx={{ borderRadius: 2 }}>
             {error}
           </Alert>
         )}
 
+        {/* Submit Button */}
         <Button
           fullWidth
           type="submit"
@@ -120,37 +176,22 @@ export function LoginView({
           {loading ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <CircularProgress size={20} color="inherit" />
-              Đang đăng nhập...
+              Đang đăng ký...
             </Box>
           ) : (
-            "Đăng Nhập"
+            "Đăng Ký"
           )}
         </Button>
-
       </Box>
 
-      <Box sx={{ mt: 4, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-
-        <Link
-          component="button"
-          type="button"
-          onClick={onSwitchToForgotPassword}
-          underline="hover"
-          sx={{
-            color: 'primary.main',
-            cursor: 'pointer',
-            fontWeight: 500,
-          }}
-        >
-          Quên mật khẩu?
-        </Link>
-
+      {/* Switch to Login */}
+      <Box sx={{ mt: 4, textAlign: 'center' }}>
         <Typography variant="body2" color="text.secondary">
-          Chưa có tài khoản?{" "}
+          Đã có tài khoản?{' '}
           <Link
             component="button"
             type="button"
-            onClick={onSwitchToRegister}
+            onClick={onSwitchToLogin}
             underline="hover"
             sx={{
               color: 'primary.main',
@@ -158,12 +199,10 @@ export function LoginView({
               fontWeight: 600,
             }}
           >
-            Đăng ký ngay
+            Đăng nhập ngay
           </Link>
         </Typography>
-
       </Box>
-
     </Paper>
   );
 }

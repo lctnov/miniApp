@@ -2,7 +2,7 @@
 
 import { LoginView } from "./view";
 
-export default function Page() {
+export default function LoginPage() {
 
   const handleLoginSuccess = (username: string) => {
     console.log("Login success:", username);
@@ -17,10 +17,13 @@ export default function Page() {
   };
 
   return (
-    <LoginView
-      onLoginSuccess={handleLoginSuccess}
-      onSwitchToRegister={switchRegister}
-      onSwitchToForgotPassword={switchForgot}
-    />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <LoginView
+        onLoginSuccess={handleLoginSuccess}
+        onSwitchToRegister={switchRegister}
+        onSwitchToForgotPassword={switchForgot}
+      />
+    </div>
+   
   );
 }

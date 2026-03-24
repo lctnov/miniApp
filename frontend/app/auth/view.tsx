@@ -1,7 +1,7 @@
 "use client";
 
 import { LoginView } from "./login/view";
-import { RegisterForm } from "./register/page";
+import { RegisterForm } from "./register/view";
 import { ForgotPasswordForm } from "./forgot/page";
 import { WelcomeScreen } from "./welcome/page";
 

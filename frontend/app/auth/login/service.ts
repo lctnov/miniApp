@@ -19,7 +19,7 @@ export async function loginService(
 
     return {
       success: data.success,
-      user: data.data,
+      user: data.data.user,
       message: data.message,
     };
 

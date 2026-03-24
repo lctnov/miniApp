@@ -4,7 +4,7 @@ class AuthController {
   async register(req, res, next) {
     try {
       const user = await authService.register(req.body);
-      res.locals.data = user;
+      res.locals.data = { user };
       next();
     } catch (err) {
       next(err);

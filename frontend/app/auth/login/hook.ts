@@ -10,7 +10,7 @@ export function useLogin(onLoginSuccess: (username: string) => void) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = async () => {
+  const handleSubmit = async () => {
 
     setError("");
 
@@ -48,6 +48,6 @@ export function useLogin(onLoginSuccess: (username: string) => void) {
     loading,
     setUsername,
     setPassword,
-    submit,
+    handleSubmit,
   };
 }

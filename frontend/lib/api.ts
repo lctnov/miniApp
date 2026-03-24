@@ -62,12 +62,18 @@ export const authApi = {
 
   login: (data: { username: string; password: string }) =>
     apiRequest("/auth/login", {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   register: (data: { username: string; email: string; password: string }) =>
     apiRequest("/auth/register", {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify(data),
     }),
